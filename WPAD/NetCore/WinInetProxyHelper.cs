@@ -17,11 +17,19 @@ namespace System.Net.Http
             var bindingFlagPrivate = BindingFlags.Instance | BindingFlags.NonPublic;
             type = Type.GetType("System.Net.Http.WinInetProxyHelper, System.Net.Http");
             constructor = type?.GetConstructor(Type.EmptyTypes);
-            autoConfigUrlFI = type?.GetField("<AutoConfigUrl>k__BackingField", bindingFlagPrivate);
-            autoDetectFI = type?.GetField("<AutoDetect>k__BackingField", bindingFlagPrivate);
-            proxyFI = type?.GetField("<Proxy>k__BackingField", bindingFlagPrivate);
-            proxyBypassFI = type?.GetField("<ProxyBypass>k__BackingField", bindingFlagPrivate);
+
+            autoConfigUrlFI = GetBackingField(type, "AutoConfigUrl", bindingFlagPrivate);
+            autoDetectFI = GetBackingField(type, "AutoDetect", bindingFlagPrivate);
+            proxyFI = GetBackingField(type, "Proxy", bindingFlagPrivate);
+            proxyBypassFI = GetBackingField(type, "ProxyBypass", bindingFlagPrivate);
+
             useProxyFI = type?.GetField("_useProxy", bindingFlagPrivate);
+        }
+
+        private static FieldInfo GetBackingField(Type type, string name, BindingFlags bindingAttr)
+        {
+            return type?.GetField($"<{name}>k__BackingField", bindingAttr)
+                ?? type?.GetField($"_{char.ToLower(name[0]) + name[1..]}", bindingAttr);
         }
 
         public WinInetProxyHelper()

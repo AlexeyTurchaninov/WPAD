@@ -1,4 +1,4 @@
-#if NETCOREAPP && !NET5_0_OR_GREATER
+#if NETCOREAPP
 using System.Net.Http;
 using WinAPI = Interop.WinHttp;
 #endif
@@ -13,7 +13,7 @@ namespace System.Net
         {
 #if NETFRAMEWORK
             proxy = new WebProxyEx();
-#elif NETCOREAPP && !NET5_0_OR_GREATER
+#elif NETCOREAPP
             var proxyHelper = new WinInetProxyHelper { UseProxy = true };
             WinAPI.SafeWinHttpHandle sessionHandle = WinAPI.WinHttpOpen(
                 userAgent: null,
@@ -38,7 +38,7 @@ namespace System.Net
 #if NETFRAMEWORK
             get { return (proxy as WebProxyEx).AutoDetect; }
             set { (proxy as WebProxyEx).AutoDetect = value; }
-#elif NETCOREAPP && !NET5_0_OR_GREATER
+#elif NETCOREAPP
             get { return (proxy as HttpWindowsProxy).ProxyHelper.AutoDetect; }
             set { (proxy as HttpWindowsProxy).ProxyHelper.AutoDetect = value; }
 #else
@@ -51,7 +51,7 @@ namespace System.Net
 #if NETFRAMEWORK
             get { return (proxy as WebProxyEx).ScriptLocation.OriginalString; }
             set { (proxy as WebProxyEx).ScriptLocation = new Uri(value); }
-#elif NETCOREAPP && !NET5_0_OR_GREATER
+#elif NETCOREAPP
             get { return (proxy as HttpWindowsProxy).ProxyHelper.AutoConfigUrl; }
             set { (proxy as HttpWindowsProxy).ProxyHelper.AutoConfigUrl = value; }
 #else
