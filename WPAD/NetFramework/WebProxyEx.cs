@@ -1,3 +1,4 @@
+#if NETFRAMEWORK
 using System.Reflection;
 
 namespace System.Net
@@ -16,9 +17,9 @@ namespace System.Net
             scriptLocationPI = typeof(WebProxy).GetProperty("ScriptLocation", bindingFlagPrivate);
         }
 
-        public WebProxyEx() : base() { } // m_EnableAutoproxy = true; (initialized inside the base constructor)
+        public WebProxyEx() { } // m_EnableAutoproxy = true; (initialized inside the base constructor)
 
-        public WebProxyEx(Uri pacScriptLocation) : this()
+        public WebProxyEx(Uri pacScriptLocation)
         {
             ScriptLocation = pacScriptLocation;
         }
@@ -38,3 +39,4 @@ namespace System.Net
         }
     }
 }
+#endif // NETFRAMEWORK

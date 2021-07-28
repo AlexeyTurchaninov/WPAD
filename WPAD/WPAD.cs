@@ -9,12 +9,12 @@ namespace System.Net
     {
         private readonly IWebProxy proxy;
 
-        public WPAD(bool autoDetect = true)
+        public WPAD()
         {
 #if NETFRAMEWORK
             proxy = new WebProxyEx();
 #elif NETCOREAPP
-            var proxyHelper = new WinInetProxyHelper { UseProxy = true };
+            var proxyHelper = new WinInetProxyHelper();
             WinAPI.SafeWinHttpHandle sessionHandle = WinAPI.WinHttpOpen(
                 userAgent: null,
                 accessType: WinAPI.AccessType.WINHTTP_ACCESS_TYPE_NO_PROXY,
@@ -25,11 +25,12 @@ namespace System.Net
 #else
             throw new NotSupportedException();
 #endif
-            AutoDetect = autoDetect;
+            AutoDetect = true;
         }
 
-        public WPAD(string pacScriptAddress) : this(autoDetect: false)
+        public WPAD(string pacScriptAddress) : this()
         {
+            AutoDetect = false;
             PacScriptAddress = pacScriptAddress;
         }
 

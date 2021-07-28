@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿#if NETCOREAPP
+using System.Reflection;
+using SafeWinHttpHandle = Interop.WinHttp.SafeWinHttpHandle;
 
 namespace System.Net.Http
 {
@@ -16,7 +18,7 @@ namespace System.Net.Http
         {
             var bindingFlagPrivate = BindingFlags.Instance | BindingFlags.NonPublic;
             type = Type.GetType("System.Net.Http.HttpWindowsProxy, System.Net.Http");
-            Type[] paramTypes = { WinInetProxyHelper.GetType(), Interop.WinHttp.SafeWinHttpHandle.GetType() };
+            Type[] paramTypes = { WinInetProxyHelper.GetType(), SafeWinHttpHandle.GetType() };
             constructor = type?.GetConstructor(
                 bindingFlagPrivate,
                 binder: null,
@@ -28,7 +30,7 @@ namespace System.Net.Http
             sessionHandleFI = type?.GetField("_sessionHandle", bindingFlagPrivate);
         }
 
-        public HttpWindowsProxy(WinInetProxyHelper proxyHelper, Interop.WinHttp.SafeWinHttpHandle sessionHandle)
+        public HttpWindowsProxy(WinInetProxyHelper proxyHelper, SafeWinHttpHandle sessionHandle)
         {
             object[] parameters = { proxyHelper.RealObject, sessionHandle.RealObject };
             thisObject = constructor?.Invoke(parameters);
@@ -54,16 +56,13 @@ namespace System.Net.Http
             set { proxyHelperFI?.SetValue(thisObject, value.RealObject); }
         }
 
-        public Interop.WinHttp.SafeWinHttpHandle SessionHandle
+        public SafeWinHttpHandle SessionHandle
         {
-            get
-            {
-                return new Interop.WinHttp.SafeWinHttpHandle { RealObject = sessionHandleFI?.GetValue(thisObject) };
-            }
-
+            get { return new SafeWinHttpHandle { RealObject = sessionHandleFI?.GetValue(thisObject) }; }
             set { sessionHandleFI?.SetValue(thisObject, value.RealObject); }
         }
 
         public static new Type GetType() => type;
     }
 }
+#endif // NETCOREAPP

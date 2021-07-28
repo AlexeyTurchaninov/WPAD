@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿#if NETCOREAPP
+using System.Reflection;
 
 namespace System.Net.Http
 {
@@ -41,7 +42,7 @@ namespace System.Net.Http
             AutoDetect = false;
             Proxy = null;
             ProxyBypass = null;
-            UseProxy = false;
+            UseProxy = true;
         }
 
         public object RealObject { get; set; } // The real typed object
@@ -75,7 +76,7 @@ namespace System.Net.Http
             set { proxyBypassFI?.SetValue(RealObject, value); }
         }
 
-        public bool UseProxy
+        private bool UseProxy
         {
             get { return (bool)(useProxyFI?.GetValue(RealObject) ?? false); }
             set { useProxyFI?.SetValue(RealObject, value); }
@@ -84,3 +85,4 @@ namespace System.Net.Http
         public static new Type GetType() => type;
     }
 }
+#endif // NETCOREAPP

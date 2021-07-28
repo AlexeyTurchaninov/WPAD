@@ -1,4 +1,5 @@
-﻿// Replicated interop classes from System.Net.Http (.NET Core, .NET 5)
+﻿#if NETCOREAPP
+// Replicated interop classes from System.Net.Http (.NET Core, .NET 5)
 
 using System;
 using System.Reflection;
@@ -50,3 +51,4 @@ namespace Interop
         }
     }
 }
+#endif // NETCOREAPP
