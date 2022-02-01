@@ -1,4 +1,4 @@
-﻿#if NETCOREAPP
+﻿#if NETCOREAPP3_0_OR_GREATER
 using System.Reflection;
 using SafeWinHttpHandle = Interop.WinHttp.SafeWinHttpHandle;
 
@@ -65,4 +65,4 @@ namespace System.Net.Http
         public static new Type GetType() => type;
     }
 }
-#endif // NETCOREAPP
+#endif // NETCOREAPP3_0_OR_GREATER

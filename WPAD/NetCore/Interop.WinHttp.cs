@@ -1,5 +1,5 @@
 ﻿#if NETCOREAPP
-// Replicated interop classes from System.Net.Http (.NET Core, .NET 5)
+// Replicated interop classes from System.Net.Http (.NET Core, .NET 5 and newer)
 
 using System;
 using System.Reflection;

@@ -13,7 +13,7 @@ namespace System.Net
         {
 #if NETFRAMEWORK
             proxy = new WebProxyEx();
-#elif NETCOREAPP
+#elif NETCOREAPP3_0_OR_GREATER
             var proxyHelper = new WinInetProxyHelper();
             WinAPI.SafeWinHttpHandle sessionHandle = WinAPI.WinHttpOpen(
                 userAgent: null,
@@ -39,7 +39,7 @@ namespace System.Net
 #if NETFRAMEWORK
             get { return (proxy as WebProxyEx).AutoDetect; }
             set { (proxy as WebProxyEx).AutoDetect = value; }
-#elif NETCOREAPP
+#elif NETCOREAPP3_0_OR_GREATER
             get { return (proxy as HttpWindowsProxy).ProxyHelper.AutoDetect; }
             set { (proxy as HttpWindowsProxy).ProxyHelper.AutoDetect = value; }
 #else
@@ -52,7 +52,7 @@ namespace System.Net
 #if NETFRAMEWORK
             get { return (proxy as WebProxyEx).ScriptLocation.OriginalString; }
             set { (proxy as WebProxyEx).ScriptLocation = new Uri(value); }
-#elif NETCOREAPP
+#elif NETCOREAPP3_0_OR_GREATER
             get { return (proxy as HttpWindowsProxy).ProxyHelper.AutoConfigUrl; }
             set { (proxy as HttpWindowsProxy).ProxyHelper.AutoConfigUrl = value; }
 #else
