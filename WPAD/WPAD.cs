@@ -50,7 +50,7 @@ namespace System.Net
         public string PacScriptAddress
         {
 #if NETFRAMEWORK
-            get { return (proxy as WebProxyEx).ScriptLocation.OriginalString; }
+            get { return (proxy as WebProxyEx).ScriptLocation?.OriginalString; }
             set { (proxy as WebProxyEx).ScriptLocation = new Uri(value); }
 #elif NETCOREAPP3_0_OR_GREATER
             get { return (proxy as HttpWindowsProxy).ProxyHelper.AutoConfigUrl; }
